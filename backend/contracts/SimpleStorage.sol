@@ -11,4 +11,8 @@ contract SimpleStorage {
     function setNumber(uint _number) external {
         number = _number;
     }
+
+    receive() external payable {} // to support receiving ETH by default
+
+    fallback() external payable {}
 }
