@@ -1,6 +1,7 @@
 import { defineConfig } from "@wagmi/cli";
 import { hardhat } from "@wagmi/cli/plugins";
 import { react } from "@wagmi/cli/plugins";
+import { hardhat as hardhatChain } from "wagmi/chains";
 
 export default defineConfig({
    out: "src/generated.ts",
@@ -10,7 +11,7 @@ export default defineConfig({
          project: "../backend",
          deployments: {
             SimpleStorage: {
-               31337: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+               [hardhatChain.id]: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
             },
          },
       }),
