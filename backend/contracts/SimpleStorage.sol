@@ -2,7 +2,7 @@
 pragma solidity 0.8.18;
 
 contract SimpleStorage {
-    uint number;
+    uint number = 5;
 
     function getNumber() external view returns (uint) {
         return number;
