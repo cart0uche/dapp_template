@@ -46,7 +46,7 @@ export default function Write() {
                   size="s"
                />
             </Box>
-            <Button colorScheme="teal" onClick={handleValidate}>
+            <Button colorScheme="teal" onClick={handleValidate} marginLeft={5}>
                Valider
             </Button>
          </Flex>
