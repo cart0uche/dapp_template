@@ -25,5 +25,5 @@ jobs:
         run: cd backend && yarn install
 
       - name: Run hardhat unit test
-        run: cd backend && yarn hardhat coverage --network hardhat
+        run: cd backend && yarn hardhat coverage
         
