@@ -1,7 +1,9 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
-const DEPLOYER_PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY || "";
+const DEPLOYER_PRIVATE_KEY =
+   process.env.DEPLOYER_PRIVATE_KEY ||
+   "0xfake1private2key3fake4private5key6fake7private8key";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
