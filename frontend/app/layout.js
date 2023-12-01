@@ -9,32 +9,32 @@ import { publicProvider } from "wagmi/providers/public";
 import { ChakraProvider } from "@chakra-ui/react";
 
 const { chains, publicClient } = configureChains(
-   [hardhat],
-   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
+  [hardhat],
+  [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-   appName: "My RainbowKit App",
-   projectId: "16a564d23b8f56d75f0fe9f57bf7fd6e",
-   chains,
+  appName: "My RainbowKit App",
+  projectId: process.env.NEXT_PUBLIC_RAINBOW_APP_ID,
+  chains,
 });
 
 const wagmiConfig = createConfig({
-   autoConnect: true,
-   connectors,
-   publicClient,
+  autoConnect: true,
+  connectors,
+  publicClient,
 });
 
 export default function RootLayout({ children }) {
-   return (
-      <html lang="en">
-         <body>
-            <WagmiConfig config={wagmiConfig}>
-               <RainbowKitProvider chains={chains}>
-                  <ChakraProvider>{children}</ChakraProvider>
-               </RainbowKitProvider>
-            </WagmiConfig>
-         </body>
-      </html>
-   );
+  return (
+    <html lang="en">
+      <body>
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider chains={chains}>
+            <ChakraProvider>{children}</ChakraProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </body>
+    </html>
+  );
 }
