@@ -20,6 +20,7 @@ module.exports = {
    },
 
    networks: {
+      hardhat: {},
       sepolia: {
          url: "https://sepolia.infura.io/v3/" + process.env.INFURA_KEY,
          accounts: [DEPLOYER_PRIVATE_KEY],
