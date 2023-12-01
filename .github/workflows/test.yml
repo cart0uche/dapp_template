@@ -1,0 +1,29 @@
+name: unit-tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node env
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: cd backend && yarn install
+
+      - name: Run hardhat unit test
+        run: cd backend && yarn hardhat coverage --network hardhat
+        
