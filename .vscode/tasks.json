@@ -1,0 +1,165 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+       {
+          "label": "Run project",
+          "type": "shell",
+          "command": "",
+          "args": [],
+          "group": {
+             "kind": "build",
+             "isDefault": true
+          },
+          "presentation": {
+             "reveal": "always",
+             "panel": "new"
+          },
+          "dependsOrder": "sequence",
+          "dependsOn": [
+             "install-backend",
+             "compile-hardhat",
+             "launch-hardhat-local",
+             "deploy-smart-contract",
+             "install-frontend",
+             "init-wagmi",
+             "generate-wagmi",
+             "start-frontend"
+          ]
+       },
+ 
+       {
+          "label": "start-frontend",
+          "options": {
+             "cwd": "${workspaceFolder}/frontend"
+          },
+          "command": "yarn",
+          "args": ["dev"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "shared"
+          }
+       },
+ 
+       {
+          "label": "init-wagmi",
+          "options": {
+             "cwd": "${workspaceFolder}/frontend"
+          },
+          "command": "yarn",
+          "args": ["wagmi", "init"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "shared"
+          }
+       },
+ 
+       {
+          "label": "generate-wagmi",
+          "options": {
+             "cwd": "${workspaceFolder}/frontend"
+          },
+          "command": "yarn",
+          "args": ["wagmi", "generate"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "shared"
+          }
+       },
+ 
+       {
+          "label": "install-frontend",
+          "options": {
+             "cwd": "${workspaceFolder}/frontend"
+          },
+          "command": "yarn",
+          "args": ["install"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "shared"
+          }
+       },
+       {
+          "label": "deploy-smart-contract",
+          "options": {
+             "cwd": "${workspaceFolder}/backend"
+          },
+          "command": "yarn",
+          "args": [
+             "hardhat",
+             "run",
+             "scripts/deploy.js",
+             "--network",
+             "localhost"
+          ],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "new"
+          }
+       },
+       {
+          "label": "launch-hardhat-local",
+          "options": {
+             "cwd": "${workspaceFolder}/backend"
+          },
+          "isBackground": true,
+          "problemMatcher": {
+             "owner": "custom",
+             "pattern": {
+                "regexp": "^(.*)$"
+             },
+             "background": {
+                "activeOnStart": true,
+                "beginsPattern": ".*",
+                "endsPattern": "LOST"
+             }
+          },
+          "command": "yarn",
+          "args": ["hardhat", "node"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "new"
+          }
+       },
+       {
+          "label": "compile-hardhat",
+          "options": {
+             "cwd": "${workspaceFolder}/backend"
+          },
+          "command": "yarn",
+          "args": ["hardhat", "compile"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "shared"
+          }
+       },
+       {
+          "label": "install-backend",
+          "options": {
+             "cwd": "${workspaceFolder}/backend"
+          },
+          "command": "yarn",
+          "args": ["install"],
+          "presentation": {
+             "echo": true,
+             "reveal": "always",
+             "focus": false,
+             "panel": "shared"
+          }
+       }
+    ]
+ }
+ 
