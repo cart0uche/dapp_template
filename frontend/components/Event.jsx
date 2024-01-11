@@ -5,8 +5,10 @@ import { useToast } from "@chakra-ui/react";
 import { Flex, List, ListItem } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useSimpleStorageContext } from "@/context/simpleStorage";  
 
 export default function Event() {
+   const { value } = useSimpleStorageContext();
    const [oldValues, setOldValues] = useState([]);
    const toast = useToast();
    useSimpleStorageNewValueEvent({
@@ -38,6 +40,10 @@ export default function Event() {
    useEffect(() => {
       fetchValues();
    }, []);
+
+   useEffect(() => {
+      console.log("Value  from context", value);
+   }, [value]);
 
    return (
       <div>

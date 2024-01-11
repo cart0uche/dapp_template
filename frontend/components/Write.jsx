@@ -6,6 +6,7 @@ import {
    usePrepareSimpleStorageSetNumber,
    useSimpleStorageSetNumber,
 } from "../src/generated.ts";
+import { useSimpleStorageContext } from "@/context/simpleStorage";
 
 export default function Write() {
    const [isClient, setIsClient] = useState(false); // https://nextjs.org/docs/messages/react-hydration-error
@@ -14,7 +15,8 @@ export default function Write() {
    const { config } = usePrepareSimpleStorageSetNumber({
       args: [numberInput],
    });
-   const { write, isError, error } = useSimpleStorageSetNumber(config);
+   const { write } = useSimpleStorageSetNumber(config);
+   const { setValue } = useSimpleStorageContext();
 
    useEffect(() => {
       setIsClient(true);
@@ -31,7 +33,11 @@ export default function Write() {
          console.log("not connected");
          return;
       }
+      // send value in smart contract
       write?.();
+
+      // update value in context
+      setValue(numberInput);
    };
 
    return (

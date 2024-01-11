@@ -7,6 +7,7 @@ import { hardhat, sepolia } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ChakraProvider } from "@chakra-ui/react";
+import { SimpleStorageProvider } from "@/context/simpleStorage";
 
 const { chains, publicClient } = configureChains(
    [sepolia, hardhat],
@@ -34,7 +35,11 @@ export default function RootLayout({ children }) {
          <body>
             <WagmiConfig config={wagmiConfig}>
                <RainbowKitProvider chains={chains}>
-                  <ChakraProvider>{children}</ChakraProvider>
+                  <ChakraProvider>
+                     <SimpleStorageProvider>
+                        {children}
+                     </SimpleStorageProvider>
+                  </ChakraProvider>
                </RainbowKitProvider>
             </WagmiConfig>
          </body>
