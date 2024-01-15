@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SimpleStorage
+    network: sepolia
+    source:
+      address: "0x600E5C1b2B89c47d84B285C3F6381ffeFd66A08E"
+      abi: SimpleStorage
+      startBlock: 5092337
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NewValue
+      abis:
+        - name: SimpleStorage
+          file: ./abis/SimpleStorage.json
+      eventHandlers:
+        - event: NewValue(uint256)
+          handler: handleNewValue
+      file: ./src/simple-storage.ts
