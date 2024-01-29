@@ -12,7 +12,7 @@ export default defineConfig({
          deployments: {
             SimpleStorage: {
                [hardhatChain.id]: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-               [sepolia.id]: "0x20dfeE5209da3f38e8F7E3E6D9B35Fee24b265CB",
+               [sepolia.id]: "0x600E5C1b2B89c47d84B285C3F6381ffeFd66A08E",
             },
          },
       }),
