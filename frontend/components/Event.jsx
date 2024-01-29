@@ -1,59 +1,76 @@
-import { useSimpleStorageNewValueEvent } from "../src/generated.ts";
-import { getPublicClient } from "@wagmi/core";
-import { parseAbiItem } from "viem";
-import { useToast } from "@chakra-ui/react";
-import { Flex, List, ListItem } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { Flex, List, ListItem, useToast } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import { useSimpleStorageContext } from "@/context/simpleStorage";  
+import { useEffect, useState } from "react";
+import { useSimpleStorageNewValueEvent } from "../src/generated.ts";
 
-export default function Event() {
-   const { value } = useSimpleStorageContext();
-   const [oldValues, setOldValues] = useState([]);
-   const toast = useToast();
-   useSimpleStorageNewValueEvent({
-      listener(log) {
-         console.log("log ", log);
-         toast({
-            title: "New value !",
-            description: "A new value has been set.",
-            status: "success",
-            position: "top-middle",
-            isClosable: true,
-         });
-         fetchValues();
-      },
-   });
+const APIURL =
+  "https://api.thegraph.com/subgraphs/name/cart0uche/simplestorage";
 
-   async function fetchValues() {
-      const publicClient = getPublicClient();
-      const logs = await publicClient.getLogs({
-         event: parseAbiItem("event NewValue(uint256)"),
-         fromBlock: 0n,
+function Event() {
+  const toast = useToast();
+  const [newValues, setNewValues] = useState([]);
+  const client = new ApolloClient({
+    uri: APIURL,
+    cache: new InMemoryCache(),
+  });
+  const tokensQuery = `
+  query {
+    newValues(first: 5) {
+      id
+      number
+      blockNumber
+      blockTimestamp
+    }
+  }
+`;
+
+  function refresh() {
+    client
+      .query({
+        query: gql(tokensQuery),
+      })
+      .then((data) => {
+        console.log("Subgraph data: ", data);
+        const currentNewValues = data.data.newValues.map((value) => {
+          return Number(value.number);
+        });
+        setNewValues(currentNewValues);
+      })
+      .catch((err) => {
+        console.log("Error fetching data: ", err);
       });
-      const currentOldValues = logs.map((log) => {
-         return Number(log.args[0]);
+  }
+
+  useSimpleStorageNewValueEvent({
+    listener(log) {
+      console.log("log ", log);
+      toast({
+        title: "New value !",
+        description: "A new value has been set.",
+        status: "success",
+        position: "top-middle",
+        isClosable: true,
       });
-      setOldValues(currentOldValues);
-   }
+      refresh();
+    },
+  });
 
-   useEffect(() => {
-      fetchValues();
-   }, []);
+  useEffect(() => {
+    refresh();
+  }, []);
 
-   useEffect(() => {
-      console.log("Value  from context", value);
-   }, [value]);
-
-   return (
-      <div>
-         <Flex p="2rem">
-            <List spacing={3}>
-               {oldValues.map((value) => {
-                  return <ListItem key={uuidv4()}>{value}</ListItem>;
-               })}
-            </List>
-         </Flex>
-      </div>
-   );
+  return (
+    <div>
+      <Flex p="2rem">
+        <List spacing={3}>
+          {newValues.map((value) => {
+            return <ListItem key={uuidv4()}>{value}</ListItem>;
+          })}
+        </List>
+      </Flex>
+    </div>
+  );
 }
+
+export default Event;
