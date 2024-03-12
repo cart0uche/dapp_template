@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { Flex, List, ListItem, useToast } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
-import { useSimpleStorageNewValueEvent } from "../src/generated.ts";
+import { useWatchSimpleStorageNewValueEvent } from "../src/generated.ts";
 
 const APIURL =
   "https://api.thegraph.com/subgraphs/name/cart0uche/simplestorage";
@@ -42,7 +42,7 @@ function Event() {
       });
   }
 
-  useSimpleStorageNewValueEvent({
+  useWatchSimpleStorageNewValueEvent({
     listener(log) {
       console.log("log ", log);
       toast({
